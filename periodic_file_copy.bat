@@ -1,12 +1,15 @@
 @echo off
 
-set /p "srcpath=Enter path to save every X minutes: "
-set /p "ext=Enter file extension: "
+set /p "srcpath=Enter directory to backup: "
+set /p "ext=Enter file extension to backup: "
 
 :: uncomment for testing
 ::SET srcpath=C:\tmp
 ::SET ext=txt
 ::echo %srcpath%
+
+cd %srcpath%
+mkdir backups
 
 :infiloop
 
@@ -28,7 +31,7 @@ set "fullstamp=%YYYY%-%MM%-%DD%_%HH%-%Min%-%Sec%"
 for /f %%f in ('dir /b *.%ext%') do echo will copy %%f to %%f-%fullstamp%.bkp
 
 :: loop copy all files with given extension
-for /f %%f in ('dir /b *.%ext%') do copy %%f %%f-%fullstamp%.bkp
+for /f %%f in ('dir /b *.%ext%') do copy %%f %srcpath%/backups/%%f-%fullstamp%.bkp
 
 :: Information of completed loop iteration
 echo Creation of %fullstamp% backups is done
